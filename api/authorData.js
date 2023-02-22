@@ -15,14 +15,24 @@ const getAuthors = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// FIXME: CREATE AUTHOR
-const createAuthor = () => {};
+// FIXME: DELETE AUTHOR
+const deleteSingleAuthor = (firebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/Authors/${firebaseKey}.json`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
 
 // FIXME: GET SINGLE AUTHOR
 const getSingleAuthor = () => {};
 
-// FIXME: DELETE AUTHOR
-const deleteSingleAuthor = () => {};
+// FIXME: CREATE AUTHOR
+const createAuthor = () => {};
 
 // FIXME: UPDATE AUTHOR
 const updateAuthor = () => {};
