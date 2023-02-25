@@ -66,7 +66,7 @@ const formEvents = () => {
         email: document.querySelector('#email').value,
         firebaseKey,
       };
-      console.warn(e.target.id);
+
       updateAuthor(payload).then(() => {
         getAuthors().then(showAuthors);
       });
