@@ -92,4 +92,5 @@ export {
   updateAuthor,
   getAuthorBooks,
   getFavAuthor,
+  endpoint,
 };
