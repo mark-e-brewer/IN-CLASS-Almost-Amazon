@@ -3,7 +3,7 @@ import renderToDOM from '../../utils/renderToDom';
 import selectAuthor from './selectAuthor';
 
 // USING THIS FORM FOR BOTH CREATE AND UPDATE
-const addBookForm = (obj = {}) => {
+const addBookForm = (user, obj = {}) => {
   console.warn(obj);
   clearDom();
   const domString = `
@@ -35,7 +35,7 @@ const addBookForm = (obj = {}) => {
     </form>`;
 
   renderToDOM('#form-container', domString);
-  selectAuthor(`${obj.author_id || ''}`);
+  selectAuthor(user, `${obj.author_id || ''}`);
 };
 
 export default addBookForm;

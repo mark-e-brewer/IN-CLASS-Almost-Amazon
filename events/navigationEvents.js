@@ -1,23 +1,31 @@
 import { getAuthors, getFavAuthor } from '../api/authorData';
 import { signOut } from '../utils/auth';
 import { booksOnSale, getBooks } from '../api/bookData';
-import { showBooks } from '../pages/books';
-import { showAuthors } from '../pages/authors';
+import { showBooks, emptyBooks } from '../pages/books';
+import { showAuthors, emptyAuthors } from '../pages/authors';
+import viewBook from '../pages/viewBook';
 
 // navigation events
-const navigationEvents = () => {
+const navigationEvents = (user) => {
   // LOGOUT BUTTON
   document.querySelector('#logout-button')
     .addEventListener('click', signOut);
 
   // TODO: BOOKS ON SALE
   document.querySelector('#sale-books').addEventListener('click', () => {
-    booksOnSale().then(showBooks);
+    booksOnSale(user.uid).then(showBooks);
   });
 
   // TODO: ALL BOOKS
   document.querySelector('#all-books').addEventListener('click', () => {
-    getBooks().then(showBooks);
+    getBooks(user.uid).then((data) => {
+      if (data.length === 0) {
+        emptyBooks();
+        showBooks(data);
+      } else {
+        showBooks(data);
+      }
+    });
   });
 
   // FIXME: STUDENTS Create an event listener for the Authors
@@ -25,12 +33,19 @@ const navigationEvents = () => {
   // 2. Convert the response to an array because that is what the makeAuthors function is expecting
   // 3. If the array is empty because there are no authors, make sure to use the emptyAuthor function
   document.querySelector('#authors').addEventListener('click', () => {
-    getAuthors().then(showAuthors);
+    getAuthors(user.uid).then((data) => {
+      if (data.length === 0) {
+        emptyAuthors();
+        showAuthors(data);
+      } else {
+        showAuthors(data);
+      }
+    });
   });
 
   // Favorite Authors
   document.querySelector('#authors-fav').addEventListener('click', () => {
-    getFavAuthor().then(showAuthors);
+    getFavAuthor(user.uid).then(showAuthors);
   });
 
   // STRETCH: SEARCH
@@ -40,6 +55,10 @@ const navigationEvents = () => {
 
     // WHEN THE USER PRESSES ENTER, MAKE THE API CALL AND CLEAR THE INPUT
     if (e.keyCode === 13) {
+      getBooks(user.uid).then((data) => {
+        const searchItem = Object.values(data).filter((items) => items.title.includes(`${searchValue}`));
+        viewBook(searchItem);
+      });
       // MAKE A CALL TO THE API TO FILTER ON THE BOOKS
       // IF THE SEARCH DOESN'T RETURN ANYTHING, SHOW THE EMPTY STORE
       // OTHERWISE SHOW THE STORE
