@@ -8,7 +8,10 @@ const emptyBooks = () => {
 
 const showBooks = (array) => {
   clearDom();
-  console.warn(array);
+  const btnString = '<button class="btn btn-success btn-lg mb-4" id="add-book-btn">Add a Book</button>';
+
+  renderToDOM('#add-button', btnString);
+
   let domString = '';
   array.forEach((item) => {
     domString += `
